@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { BsFillSendFill, BsTelephoneOutbound } from 'react-icons/bs';
 import { BiMessageDetail } from 'react-icons/bi';
-
+import { CiLocationOn } from "react-icons/ci";
 const Footer = () => {
   return (
     <footer className='mt-16'>
@@ -14,7 +14,11 @@ const Footer = () => {
 
         <div className='flex flex-wrap gap-16 items-center justify-between'>
           <div className='flex-1'>
-            <p>Utawala Shooters</p>
+          <div className='flex items-center'>
+          <CiLocationOn />
+          <p className='ml-2'>Utawala Shooters</p>
+          </div>
+
             <div className='flex items-center py-4'>
               <BsFillSendFill />
               <p className='ml-2'>ianotieno23@gmail.com</p>

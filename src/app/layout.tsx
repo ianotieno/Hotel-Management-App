@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
+import ThemeProvider from "@/Components/ThemeProvider/ThemeProvider";
 
 
 // Corrected Poppins configuration
@@ -26,12 +27,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
+        <ThemeProvider>
         <main className="font-normal">
           <Header/>
           
           {children} 
           <Footer/>
         </main> 
+          </ThemeProvider>
+        
       </body>
     </html>
   );
