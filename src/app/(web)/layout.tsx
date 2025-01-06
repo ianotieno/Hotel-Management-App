@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
 import ThemeProvider from "@/Components/ThemeProvider/ThemeProvider";
+import { NextAuthProvider } from "@/Components/AuthProvider/AuthProvider";
+import { Toaster } from "react-hot-toast";
 
 
 // Corrected Poppins configuration
@@ -27,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
+        <NextAuthProvider>
         <ThemeProvider>
+          <Toaster />
         <main className="font-normal">
           <Header/>
           
@@ -35,7 +39,7 @@ export default function RootLayout({
           <Footer/>
         </main> 
           </ThemeProvider>
-        
+        </NextAuthProvider>
       </body>
     </html>
   );
