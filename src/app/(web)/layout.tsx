@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+
 import "./globals.css";
 import Header from "@/Components/Header/Header";
 import Footer from "@/Components/Footer/Footer";
@@ -9,12 +9,7 @@ import { Toaster } from "react-hot-toast";
 
 
 // Corrected Poppins configuration
-const poppins = Poppins({
-  weight: ["400", "500", "600", "700"], // Fixed property name
-  style: ["normal", "italic"], // Fixed property name
-  variable: "--font-poppins",
-  subsets: ["latin"], // Valid subset
-});
+
 
 export const metadata: Metadata = {
   title: "Hotel Management App",
@@ -28,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body >
         <NextAuthProvider>
         <ThemeProvider>
           <Toaster />
