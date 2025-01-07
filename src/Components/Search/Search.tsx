@@ -25,7 +25,6 @@ const handleSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     };
 const handleFilterClick = () => {
     router.push(`/rooms?roomType=${roomTypeFilter}&searchQuery=${searchQuery}`);
-
     };
   return (
     <section className="bg-tertiary-light px-4 py-6 rounded-lg">
