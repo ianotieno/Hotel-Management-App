@@ -1,29 +1,36 @@
-"use strict";
-import React, { FC, useState } from 'react'
-import { Image as ImageType } from '@/model/room'
+'use client';
+
+import { FC, useState } from 'react';
 import Image from 'next/image';
+
+import { Image as ImageType } from '@/model/room';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
-const HotelPhotoGallery:FC<{photos:ImageType[]}> = ({ photos }) => {
-    const [currenPhotoIndex, setCurrentPhotoIndex] = useState(0);
-    const [showModal, setShowModal] = useState(false);
 
-    const openModal = (index: number) => {
-        setCurrentPhotoIndex(index);
-        setShowModal(true);
-      };
-      const handlePrevious = () => {
-        setCurrentPhotoIndex(prevIndex =>
-          prevIndex === 0 ? photos.length - 1 : prevIndex - 1
-        );
-      };
-    
-      const handleNext = () => {
-        setCurrentPhotoIndex(prevIndex =>
-          prevIndex === photos.length - 1 ? 0 : prevIndex + 1
-        );
-      };
-    const maximumVisiblePhotos = 4;
+const HotelPhotoGallery: FC<{ photos: ImageType[] }> = ({ photos }) => {
+  const [currenPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = (index: number) => {
+    setCurrentPhotoIndex(index);
+    setShowModal(true);
+  };
+
+ 
+
+  const handlePrevious = () => {
+    setCurrentPhotoIndex(prevIndex =>
+      prevIndex === 0 ? photos.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentPhotoIndex(prevIndex =>
+      prevIndex === photos.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const maximumVisiblePhotos = 4;
   const totalPhotos = photos.length;
   const displayPhotos = photos.slice(1, maximumVisiblePhotos - 1);
   const remainingPhotosCount = totalPhotos - maximumVisiblePhotos;
@@ -33,7 +40,7 @@ const HotelPhotoGallery:FC<{photos:ImageType[]}> = ({ photos }) => {
       <div className='grid md:grid-cols-2 relative gap-5 px-3'>
         <div className='h-[540px] relative rounded-2xl overflow-hidden'>
           <div className='hidden md:flex justify-center items-center w-full h-full'>
-          <Image
+            <Image
               src={photos[0].url}
               alt={`Room Photo ${currenPhotoIndex + 1}`}
               className='img scale-animation cursor-pointer'
@@ -52,7 +59,8 @@ const HotelPhotoGallery:FC<{photos:ImageType[]}> = ({ photos }) => {
               onClick={openModal.bind(this, 0)}
             />
           </div>
-          <div className='md:hidden flex justify-between items-center'>
+        </div>
+        <div className='md:hidden flex justify-between items-center'>
           <div className='flex space-x-2'>
             <FaArrowLeft className='cursor-pointer' onClick={handlePrevious} />
             <FaArrowRight className='cursor-pointer' onClick={handleNext} />
@@ -61,8 +69,8 @@ const HotelPhotoGallery:FC<{photos:ImageType[]}> = ({ photos }) => {
             {currenPhotoIndex + 1} / {photos.length}
           </span>
         </div>
-         </div>
-         <div className='hidden md:grid grid-cols-2 h-full gap-5'>
+
+        <div className='hidden md:grid grid-cols-2 h-full gap-5'>
           {displayPhotos.map((photo, index) => (
             <div
               key={index}
@@ -95,9 +103,11 @@ const HotelPhotoGallery:FC<{photos:ImageType[]}> = ({ photos }) => {
             </div>
           )}
         </div>
-         </div>
-         </div>
-  )
-}
 
-export default HotelPhotoGallery
+        
+      </div>
+    </div>
+  );
+};
+
+export default HotelPhotoGallery;
