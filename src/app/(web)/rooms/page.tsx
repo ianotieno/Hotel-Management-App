@@ -1,7 +1,12 @@
 "use client";
 
+import RoomCard from "@/Components/RoomCard/RoomCard";
+import Search from "@/Components/Search/Search";
+import { getRooms } from "@/libs/apis";
+import { Room } from "@/model/room";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 const Rooms = () => {
   const [roomTypeFilter, setRoomTypeFilter] = useState("");
@@ -9,20 +14,71 @@ const Rooms = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const roomType = searchParams.get("roomType") ; // Default to "All" if not specified
+    const roomType = searchParams.get("roomType") ; 
     const searchQuery = searchParams.get("searchQuery") ;
 
  
 
-    console.log("Room Type:", roomType);
-    console.log("Search Query:", searchQuery);
-  }, [searchParams]); // Add searchParams as a dependency
+    if (roomType) {
+      setRoomTypeFilter(roomType);
+    }
+    if (searchQuery) {
+      setSearchQuery(searchQuery);
+    }
+
+  }, []);
+  
+  async function fetchData() {
+    return getRooms();
+  }
+  const {data, error, isLoading}= useSWR('get/hotelRooms',fetchData);
+
+  if (error) throw new Error('Cannot fetch data');
+  if (typeof data === 'undefined' && !isLoading)
+    throw new Error('Cannot fetch data');
+
+  const filterRooms = (rooms: Room[]) => {
+    return rooms.filter(room => {
+      // Apply room type filter
+
+      if (
+        roomTypeFilter &&
+        roomTypeFilter.toLowerCase() !== 'all' &&
+        room.type.toLowerCase() !== roomTypeFilter.toLowerCase()
+      ) {
+        return false;
+      }
+
+      //   Apply search query filter
+      if (
+        searchQuery &&
+        !room.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
+        return false;
+      }
+
+      return true;
+    });
+  };
+
+  const filteredRooms = filterRooms(data || []);
+  console.log(filteredRooms);
 
   return (
-    <div className="container mx-auto pt-10">
-      <h1>Rooms</h1>
-      
+    <div className='container mx-auto pt-10'>
+    <Search
+      roomTypeFilter={roomTypeFilter}
+      searchQuery={searchQuery}
+      setRoomTypeFilter={setRoomTypeFilter}
+      setSearchQuery={setSearchQuery}
+    />
+
+    <div className='flex mt-20 justify-between flex-wrap'>
+      {filteredRooms.map(room => (
+        <RoomCard key={room._id} room={room} />
+      ))}
     </div>
+  </div>
   );
 };
 

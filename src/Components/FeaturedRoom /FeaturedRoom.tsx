@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 
 import Link from 'next/link';
-import { Room } from '@/app/model/room';
+import { Room } from '@/model/room';
 
 type Props = {
   featuredRoom: Room;
