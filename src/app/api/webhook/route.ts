@@ -23,7 +23,8 @@ export async function POST(req: Request, res: Response) {
   switch (event.type) {
     case checkout_session_completed:
       const session = event.data.object;
-      console.log("Session ID: ", session.id);
+      console.log("Session ID: =>", session);
+      
      
       return NextResponse.json("Booking Successful", {
         status: 200,
