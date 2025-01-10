@@ -8,7 +8,7 @@ export type Image={
 }
 type Amenity={
         _key:string
-        aminity:string
+        amenity:string
         icon:string
 }
 type Slug={
@@ -19,7 +19,7 @@ export type Room={
     _id:string;
     coverImage:CoverImage;
     description:string;
-    dimensions:string;
+    dimension:string;
     discount:number;
     images:Image[];
     isBooked:boolean;
@@ -27,7 +27,7 @@ export type Room={
     name:string;
     numberOfBeds:number;
     slug:Slug;
-    offeredAminities:Amenity[];
+    offeredAmenities:Amenity[];
     price:number;
     type:string;
     specialNote:string;
