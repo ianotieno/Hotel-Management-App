@@ -15,6 +15,8 @@ type props = {
   noOfChildren: number;
   setAdults: React.Dispatch<React.SetStateAction<number>>;
   setNoOfChildren: React.Dispatch<React.SetStateAction<number>>;
+  isBooked: boolean;
+  handleBookNowClick: () => void;
 };
 
 const BookRoomCta: FC<props> = (props) => {
@@ -30,6 +32,9 @@ const BookRoomCta: FC<props> = (props) => {
     setNoOfChildren,
     adults,
     noOfChildren,
+    isBooked,
+    handleBookNowClick
+
   } = props;
   const discountPrice = price - (price / 100) * discount;
  
@@ -41,6 +46,12 @@ const BookRoomCta: FC<props> = (props) => {
       return nextDay;
     }
     return null;
+  };
+  const calcNoOfDays = () => {
+    if (!checkinDate || !checkoutDate) return 0;
+    const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
+    const noOfDays = Math.ceil(timeDiff / (24 * 60 * 60 * 1000));
+    return noOfDays;
   };
 
   return (
@@ -134,7 +145,21 @@ const BookRoomCta: FC<props> = (props) => {
             className="w-full border text-black border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary"
             />
         </div>
+        
+      
       </div>
+      {calcNoOfDays() > 0 ? (
+        <p className='mt-3'>Total Price: $ {calcNoOfDays() * discountPrice}</p>
+      ) : (
+        <></>
+      )}
+      <button
+        disabled={isBooked}
+        onClick={handleBookNowClick}
+        className='btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed'
+      >
+        {isBooked ? 'Booked' : 'Book Now'}
+      </button>
     </div>
   );
 };

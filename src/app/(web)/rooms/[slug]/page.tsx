@@ -10,7 +10,10 @@ import { MdOutlineCleaningServices } from "react-icons/md";
 import { LiaFireExtinguisherSolid } from "react-icons/lia";
 import { AiOutlineMedicineBox } from "react-icons/ai";
 import { GiSmokeBomb } from "react-icons/gi";
+import toast from 'react-hot-toast';
 import BookRoomCta from "@/Components/BookRoomCta/BookRoomCta";
+import { getStripe } from "@/libs/stripe";
+import axios from 'axios';
 
 const RoomDetails = (props: { params: Promise<{ slug: string }> }) => {
   const params = use(props.params); // Unwrapping the Promise with React.use()
@@ -35,6 +38,50 @@ const RoomDetails = (props: { params: Promise<{ slug: string }> }) => {
 
   if (!room) return <LoadingSpinner />;
 
+const handleBookNowClick = async() => {
+  if (!checkinDate || !checkoutDate)
+    return toast.error('Please provide checkin / checkout date');
+
+  if (checkinDate > checkoutDate)
+    return toast.error('Please choose a valid checkin period');
+  const numberOfDays = calcNumDays();
+  const hotelRoomSlug = room.slug.current;
+
+  const stripe = await getStripe();
+
+  try {
+    const { data: stripeSession } = await axios.post('/api/stripe', {
+      checkinDate,
+      checkoutDate,
+      adults,
+      children: noOfChildren,
+      numberOfDays,
+      hotelRoomSlug,
+    });
+
+    if (stripe) {
+      const result = await stripe.redirectToCheckout({
+        sessionId: stripeSession.id,
+      });
+
+      if (result.error) {
+        toast.error('Payment Failed');
+      }
+    }
+  } catch (error) {
+    console.log('Error: ', error);
+    toast.error('An error occured');
+  }
+
+
+}
+  
+  const calcNumDays = () => {
+    if (!checkinDate || !checkoutDate) return;
+    const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
+    const noOfDays = Math.ceil(timeDiff / (24 * 60 * 60 * 1000));
+    return noOfDays;
+  };
   return (
     <div>
       <HotelPhotoGallery photos={room.images || []} />
@@ -126,7 +173,8 @@ const RoomDetails = (props: { params: Promise<{ slug: string }> }) => {
               noOfChildren={noOfChildren}
               setAdults={setAdults}
               setNoOfChildren={setNoOfChildren}
-            
+              isBooked={room.isBooked}
+              handleBookNowClick={handleBookNowClick}
             />
           </div>
         </div>
