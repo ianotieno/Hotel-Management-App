@@ -3,6 +3,7 @@ import sanityClient from "./sanity";
 import axios from 'axios';
 
 import * as queries from "./sanityQueries";
+import { Booking } from "@/model/booking";
 
 export async function getFeaturedRoom() {
     const result = await sanityClient.fetch<Room>(queries.getFeaturedRoomQuery,{},{cache: 'no-cache'});
@@ -87,3 +88,23 @@ export async function getRooms() {
   
     return data;
   };
+  export async function getUserBookings(userId: string) {
+    const result = await sanityClient.fetch<Booking[]>(
+      queries.getUserBookingsQuery,
+      {
+        userId,
+      },
+      { cache: 'no-cache' }
+    );
+  
+    return result;
+  }
+  export async function getUserData(userId: string) {
+    const result = await sanityClient.fetch(
+      queries.getUserDataQuery,
+      { userId },
+      { cache: 'no-cache' }
+    );
+  
+    return result;
+  }
