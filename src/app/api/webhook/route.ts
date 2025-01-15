@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createBooking, updateHotelRoom } from "@/libs/apis";
+import { skip } from "node:test";
 
 const checkout_session_completed = "checkout.session.completed";
 
@@ -24,8 +25,8 @@ export async function POST(req: Request, res: Response) {
   switch (event.type) {
     case checkout_session_completed:
       const session = event.data.object;
+      console.log("Checkout Session Completed", session);
       const {
-        //@ts-expect-error
 
         metadata: { 
           adults,
@@ -51,10 +52,12 @@ export async function POST(req: Request, res: Response) {
         user,
       });
       await updateHotelRoom(hotelRoom);
+      
       return NextResponse.json("Booking Successful", {
         status: 200,
         statusText: "Booking Successful",
       });
+      
     default:
       console.log(`Unhandled event type: ${event.type}`);
   }
@@ -63,3 +66,7 @@ export async function POST(req: Request, res: Response) {
     statusText: "Event Received",
   });
 }
+
+
+
+

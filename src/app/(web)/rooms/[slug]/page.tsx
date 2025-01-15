@@ -4,7 +4,7 @@ import { getRoom } from "@/libs/apis";
 import useSWR from "swr";
 import LoadingSpinner from "../../loading";
 import HotelPhotoGallery from "@/Components/HotelPhotoGallery/HotelPhotoGallery";
-import { use, useState } from "react";
+import {  useState } from "react";
 import { Room } from "@/model/room";
 import { MdOutlineCleaningServices } from "react-icons/md";
 import { LiaFireExtinguisherSolid } from "react-icons/lia";
@@ -15,9 +15,10 @@ import BookRoomCta from "@/Components/BookRoomCta/BookRoomCta";
 import { getStripe } from "@/libs/stripe";
 import axios from 'axios';
 
-const RoomDetails = (props: { params: Promise<{ slug: string }> }) => {
-  const params = use(props.params); // Unwrapping the Promise with React.use()
-  const { slug } = params;
+const RoomDetails = (props: { params: { slug: string } }) => {
+  const {
+    params: { slug },
+  } = props;
 
   const [checkinDate, setCheckinDate] = useState<Date | null>(null);
   const [checkoutDate, setCheckoutDate] = useState<Date | null>(null);
@@ -70,7 +71,7 @@ const handleBookNowClick = async() => {
     }
   } catch (error) {
     console.log('Error: ', error);
-    toast.error('An error occured');
+    toast.error('Login to book a room');
   }
 
 
