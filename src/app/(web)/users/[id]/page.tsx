@@ -16,6 +16,7 @@ import Table from "@/Components/Table/Table";
 import Chart from "@/Components/Chart/Chart";
 import RatingModal from "@/Components/RatingModal/RatingModal";
 import BackDrop from "@/Components/BackDrop.tsx/BackDrop";
+import toast from "react-hot-toast";
 
 
 const UserDetails = (props: { params: Promise<{ id: string }> }) => {
@@ -27,6 +28,33 @@ const UserDetails = (props: { params: Promise<{ id: string }> }) => {
   const [isRatingVisible, setIsRatingVisible] = useState(false);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
   const [ratingText, setRatingText] = useState('');
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+
+  const reviewSubmitHandler = async () => {
+    if (!ratingText.trim().length || !ratingValue) {
+      return toast.error('Please provide a rating text and a rating');
+    }
+
+    if (!roomId) toast.error('Id not provided');
+    try {
+      const { data } = await axios.post('/api/users', {
+        reviewText: ratingText,
+        ratingValue,
+        roomId,
+      });
+      console.log(data);
+      toast.success('Review Submitted');
+    } catch (error) {
+      console.log(error);
+      toast.error('Review Failed');
+    } finally {
+      setRatingText('');
+      setRatingValue(null);
+      setRoomId(null);
+      setIsSubmittingReview(false);
+      setIsRatingVisible(false);
+    }
+  }
 
 const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
   const [currentNav, setCurrentNav] = useState<
@@ -183,7 +211,11 @@ const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
         ratingValue={ratingValue}
         setRatingValue={setRatingValue}
         ratingText={ratingText}
-        setratingText={setRatingText}
+        setRatingText={setRatingText}
+        reviewSubmitHandler={reviewSubmitHandler}
+        isSubmittingReview={isSubmittingReview}
+        toggleRatingModal={toggleRatingModal}
+        
       />
       <BackDrop isOpen={isRatingVisible} />
 </div>
