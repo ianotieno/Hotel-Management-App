@@ -1,14 +1,14 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createBooking, updateHotelRoom } from "@/libs/apis";
-import { skip } from "node:test";
+
 
 const checkout_session_completed = "checkout.session.completed";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2024-12-18.acacia",
 });
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function POST(req: Request, res: Response) {
   const reqBody = await req.text();
   const sig = req.headers.get("stripe-signature");
@@ -18,8 +18,8 @@ export async function POST(req: Request, res: Response) {
   try {
     if (!sig || !webhookSecret) return;
     event = stripe.webhooks.constructEvent(reqBody, sig, webhookSecret);
-  } catch (error: any) {
-    return new NextResponse(`Webhook Error: ${error.message}`, { status: 500 });
+  } catch (error) {
+    return new NextResponse(`Webhook Error: ${error}`, { status: 500 });
   }
 
   switch (event.type) {

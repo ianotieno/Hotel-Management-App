@@ -2,6 +2,7 @@ import { getRoomReviews } from '@/libs/apis';
 import { NextResponse } from 'next/server';
 
 export async function GET(
+  
   req: Request,
   { params }: { params: { id: string } }
 ) {

@@ -16,7 +16,7 @@ type RequestData = {
   numberOfDays: number;
   hotelRoomSlug: string;
 };
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function POST(req: Request, res: Request) {
   const {
     checkinDate,

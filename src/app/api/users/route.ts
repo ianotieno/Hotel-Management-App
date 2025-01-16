@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 import { authOptions } from '@/libs/auth';
 import { checkReviewExists, createReview, getUserData, updateReview } from '@/libs/apis';
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(req: Request, res: Response) {
     const session = await getServerSession(authOptions);
   
@@ -16,11 +16,13 @@ export async function GET(req: Request, res: Response) {
     try {
       const data = await getUserData(userId);
       return NextResponse.json(data, { status: 200, statusText: 'Successful' });
-    } catch (error) {
+    } 
+    catch (error) {
+      console.log('Getting User Data Failed', error);
       return new NextResponse('Unable to fetch', { status: 400 });
     }
   }
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
   export async function POST(req: Request, res: Response) {
     const session = await getServerSession(authOptions);
   
@@ -58,7 +60,7 @@ export async function GET(req: Request, res: Response) {
       }
   
       return NextResponse.json(data, { status: 200, statusText: 'Successful' });
-    } catch (error: any) {
+    } catch (error) {
       console.log('Error Updating', error);
       return new NextResponse('Unable to create review', { status: 400 });
     }
