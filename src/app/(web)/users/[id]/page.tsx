@@ -15,14 +15,19 @@ import { GiMoneyStack } from "react-icons/gi";
 import Table from "@/Components/Table/Table";
 import Chart from "@/Components/Chart/Chart";
 import RatingModal from "@/Components/RatingModal/RatingModal";
+import BackDrop from "@/Components/BackDrop.tsx/BackDrop";
 
 
 const UserDetails = (props: { params: Promise<{ id: string }> }) => {
   // Resolving the params Promise to get userId
   const params = use(props.params);
   const { id: userId } = params;
+
   const [roomId, setRoomId] = useState<string | null>(null);
   const [isRatingVisible, setIsRatingVisible] = useState(false);
+  const [ratingValue, setRatingValue] = useState<number | null>(0);
+  const [ratingText, setRatingText] = useState('');
+
 const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
   const [currentNav, setCurrentNav] = useState<
     'bookings' | 'amount' | 'ratings'
@@ -175,7 +180,12 @@ const toggleRatingModal = () => setIsRatingVisible(prevState => !prevState);
 </div>
 <RatingModal
         isOpen={isRatingVisible}
+        ratingValue={ratingValue}
+        setRatingValue={setRatingValue}
+        ratingText={ratingText}
+        setratingText={setRatingText}
       />
+      <BackDrop isOpen={isRatingVisible} />
 </div>
 );
 }
