@@ -29,7 +29,7 @@ const Auth = () => {
         await signIn();
         router.push('/');
         toast.success("login successfully");
-      } catch (_error) {
+      } catch (error) {
         console.log(error)
         toast.error("something went wrong");
       }
