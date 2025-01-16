@@ -41,6 +41,7 @@ export async function GET(req: Request, res: Response) {
   
       let data;
    console.log('Already Exists', alreadyExists);
+   
       if (alreadyExists) {
         data = await updateReview({
           reviewId: alreadyExists._id,
