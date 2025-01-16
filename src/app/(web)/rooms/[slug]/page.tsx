@@ -4,7 +4,7 @@ import { getRoom } from "@/libs/apis";
 import useSWR from "swr";
 import LoadingSpinner from "../../loading";
 import HotelPhotoGallery from "@/Components/HotelPhotoGallery/HotelPhotoGallery";
-import {  useState } from "react";
+import {  use, useState } from "react";
 import { Room } from "@/model/room";
 import { MdOutlineCleaningServices } from "react-icons/md";
 import { LiaFireExtinguisherSolid } from "react-icons/lia";
@@ -16,10 +16,12 @@ import { getStripe } from "@/libs/stripe";
 import axios from 'axios';
 import RoomReview from "@/Components/RoomReview/RoomReview";
 
-const RoomDetails = (props: { params: { slug: string } }) => {
-  const {
-    params: { slug },
-  } = props;
+const RoomDetails  = (props: { params: Promise<{ slug: string }> }) => {
+    // Resolving the params Promise to get userId
+    const params = use(props.params);
+    const {slug: slug } = params;
+
+ 
 
   const [checkinDate, setCheckinDate] = useState<Date | null>(null);
   const [checkoutDate, setCheckoutDate] = useState<Date | null>(null);
