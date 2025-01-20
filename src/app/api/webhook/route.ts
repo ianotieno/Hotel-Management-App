@@ -9,7 +9,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2024-12-18.acacia",
 });
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request,) {
   const reqBody = await req.text();
   const sig = req.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -26,19 +26,21 @@ export async function POST(req: Request, res: Response) {
     case checkout_session_completed:
       const session = event.data.object;
       console.log("Checkout Session Completed", session);
-      const {
+      if (!session.metadata) {
+        return new NextResponse("Metadata is missing in the session", { status: 400 });
+      }
 
-        metadata: { 
-          adults,
-          checkinDate,
-          checkoutDate,
-          children,
-          hotelRoom,
-          numberOfDays,
-          user,
-          discount,
-          totalPrice, },
-      } = session;
+      const {
+        adults,
+        checkinDate,
+        checkoutDate,
+        children,
+        hotelRoom,
+        numberOfDays,
+        user,
+        discount,
+        totalPrice,
+      } = session.metadata;
 
       await createBooking({
         adults: Number(adults),

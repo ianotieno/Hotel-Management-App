@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@/libs/auth';
 import { checkReviewExists, createReview, getUserData, updateReview } from '@/libs/apis';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function GET(req: Request, res: Response) {
+export async function GET(req: Request,) {
     const session = await getServerSession(authOptions);
   
     if (!session) {
@@ -23,7 +23,7 @@ export async function GET(req: Request, res: Response) {
     }
   }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  export async function POST(req: Request, res: Response) {
+  export async function POST(req: Request,) {
     const session = await getServerSession(authOptions);
   
     if (!session) {

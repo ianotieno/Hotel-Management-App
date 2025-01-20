@@ -45,7 +45,7 @@ const BookRoomCta: FC<props> = (props) => {
       nextDay.setDate(nextDay.getDate() + 1);
       return nextDay;
     }
-    return null;
+    return  undefined;
   };
   const calcNoOfDays = () => {
     if (!checkinDate || !checkoutDate) return 0;
