@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const { fontFamily } = require('tailwindcss/defaultTheme');
 export default {
+  important: true,
   darkMode: 'class',
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
