@@ -25,7 +25,7 @@ export async function POST(req: Request,) {
   switch (event.type) {
     case checkout_session_completed:
       const session = event.data.object;
-      console.log("Checkout Session Completed", session);
+     
       if (!session.metadata) {
         return new NextResponse("Metadata is missing in the session", { status: 400 });
       }

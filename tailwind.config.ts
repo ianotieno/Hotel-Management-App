@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 const { fontFamily } = require('tailwindcss/defaultTheme');
 export default {
   important: true,
+  mode: "jit",
   darkMode: 'class',
   content: [
     "./src/Components/**/*.{js,ts,jsx,tsx,mdx}",

@@ -42,7 +42,7 @@ export async function GET(req: Request,) {
       const alreadyExists = await checkReviewExists(userId, roomId);
   
       let data;
-   console.log('Already Exists', alreadyExists);
+   
    
       if (alreadyExists) {
         data = await updateReview({
