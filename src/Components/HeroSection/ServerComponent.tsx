@@ -21,7 +21,7 @@ export const section2 = (
                 alt="hero-1"
                 width={300}
                 height={300}
-                className="img object-cover w-full h-full"
+                className="object-cover w-full h-full"
             />
         </div>
 
